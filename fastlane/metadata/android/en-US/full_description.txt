@@ -1,0 +1,9 @@
+Easy Flashcards & Quiz is a simple way to study anything: vocabulary, school subjects, exam facts, new languages.
+
+Make a set of terms and definitions, then learn it your way:
+
+• Flashcards: tap a card to flip it, then mark it "Got it" or "Still learning". Go back over just the ones you missed.
+• Quizzes: multiple choice and written questions made from your own set, with your results and the answers to review at the end.
+• Your own study sets: create, edit and delete as many as you like.
+
+Simple on purpose. No clutter, just your cards and a way to practise them.

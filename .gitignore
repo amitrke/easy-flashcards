@@ -36,3 +36,8 @@ GoogleService-Info.plist
 firebase_options.dart
 
 .claude/
+
+# fastlane run output (fastlane/metadata is tracked)
+/fastlane/report.xml
+/fastlane/README.md
+/fastlane/test_output/

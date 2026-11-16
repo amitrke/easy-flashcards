@@ -1,0 +1,3 @@
+Easy Flashcards & Quiz has no account or sign-in in this version, and everything is stored on the device.
+
+To try it: tap "New set", enter a title and at least one term with its definition, then tap Save. Open the set, then tap "Flashcards" to flip through the cards or "Quiz" to take a test.

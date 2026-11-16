@@ -54,19 +54,26 @@ List<QuizQuestion> buildQuiz(
     final card = picked[i];
     final wantMc = multipleChoice && (!written || i.isEven);
     if (wantMc) {
-      final wrong = cards
-          .where((c) => c.id != card.id && !answersMatch(c.definition, card.definition))
-          .map((c) => c.definition)
-          .toSet()
-          .toList()
-        ..shuffle(rng);
+      final wrong =
+          cards
+              .where(
+                (c) =>
+                    c.id != card.id &&
+                    !answersMatch(c.definition, card.definition),
+              )
+              .map((c) => c.definition)
+              .toSet()
+              .toList()
+            ..shuffle(rng);
       if (wrong.isNotEmpty) {
         final options = [card.definition, ...wrong.take(3)]..shuffle(rng);
-        questions.add(QuizQuestion(
-          card: card,
-          type: QuestionType.multipleChoice,
-          options: options,
-        ));
+        questions.add(
+          QuizQuestion(
+            card: card,
+            type: QuestionType.multipleChoice,
+            options: options,
+          ),
+        );
         continue;
       }
     }

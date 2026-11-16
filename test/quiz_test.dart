@@ -32,18 +32,24 @@ void main() {
       expect(q.length, cards.length);
     });
 
-    test('multiple choice has the answer plus up to three distinct wrong ones', () {
-      final q = buildQuiz(cards, written: false, random: Random(2));
-      for (final question in q) {
-        expect(question.type, QuestionType.multipleChoice);
-        expect(question.options.length, 4);
-        expect(question.options.toSet().length, 4);
-        expect(question.options, contains(question.answer));
-      }
-    });
+    test(
+      'multiple choice has the answer plus up to three distinct wrong ones',
+      () {
+        final q = buildQuiz(cards, written: false, random: Random(2));
+        for (final question in q) {
+          expect(question.type, QuestionType.multipleChoice);
+          expect(question.options.length, 4);
+          expect(question.options.toSet().length, 4);
+          expect(question.options, contains(question.answer));
+        }
+      },
+    );
 
     test('mixed mode produces both kinds', () {
-      final types = buildQuiz(cards, random: Random(3)).map((e) => e.type).toSet();
+      final types = buildQuiz(
+        cards,
+        random: Random(3),
+      ).map((e) => e.type).toSet();
       expect(types, {QuestionType.multipleChoice, QuestionType.written});
     });
 
@@ -52,18 +58,25 @@ void main() {
       expect(q.single.type, QuestionType.written);
     });
 
-    test('cards with identical definitions are not offered as wrong answers', () {
-      final twins = [card('a', 'X', 'Same'), card('b', 'Y', 'Same')];
-      final q = buildQuiz(twins, written: false);
-      expect(q.every((e) => e.type == QuestionType.written), isTrue);
-    });
+    test(
+      'cards with identical definitions are not offered as wrong answers',
+      () {
+        final twins = [card('a', 'X', 'Same'), card('b', 'Y', 'Same')];
+        final q = buildQuiz(twins, written: false);
+        expect(q.every((e) => e.type == QuestionType.written), isTrue);
+      },
+    );
 
     test('count limits the number of questions', () {
       expect(buildQuiz(cards, count: 2).length, 2);
     });
 
     test('isCorrect accepts the right written answer only', () {
-      final q = buildQuiz([cards.first], written: true, multipleChoice: false).single;
+      final q = buildQuiz(
+        [cards.first],
+        written: true,
+        multipleChoice: false,
+      ).single;
       expect(q.isCorrect('a small pet'), isTrue);
       expect(q.isCorrect('nope'), isFalse);
     });

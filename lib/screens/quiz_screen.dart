@@ -106,10 +106,10 @@ class _QuizScreenState extends State<QuizScreen> {
                   backgroundColor: !_answered
                       ? null
                       : option == q.answer
-                          ? Colors.green.withValues(alpha: 0.2)
-                          : option == _given
-                              ? scheme.errorContainer
-                              : null,
+                      ? Colors.green.withValues(alpha: 0.2)
+                      : option == _given
+                      ? scheme.errorContainer
+                      : null,
                 ),
                 onPressed: _answered ? null : () => _answer(option),
                 child: Text(option),
@@ -136,13 +136,15 @@ class _QuizScreenState extends State<QuizScreen> {
           Text(
             _wasCorrect! ? 'Correct!' : 'Not quite. The answer is: ${q.answer}',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: _wasCorrect! ? Colors.green.shade700 : scheme.error,
-                ),
+              color: _wasCorrect! ? Colors.green.shade700 : scheme.error,
+            ),
           ),
           const SizedBox(height: 16),
           FilledButton(
             onPressed: _next,
-            child: Text(_index + 1 == _questions.length ? 'See results' : 'Next'),
+            child: Text(
+              _index + 1 == _questions.length ? 'See results' : 'Next',
+            ),
           ),
         ],
       ],
@@ -156,7 +158,10 @@ class _QuizScreenState extends State<QuizScreen> {
       padding: const EdgeInsets.all(24),
       children: [
         Center(
-          child: Text('$percent%', style: Theme.of(context).textTheme.displayMedium),
+          child: Text(
+            '$percent%',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
         ),
         Center(child: Text('$_correct of $total correct')),
         const SizedBox(height: 24),

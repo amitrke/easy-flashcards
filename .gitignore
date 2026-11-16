@@ -28,12 +28,9 @@ ios/Flutter/flutter_export_environment.sh
 *.p8
 *.mobileprovision
 
-# Secrets and Firebase config
+# Secrets (Firebase client config is not secret and is committed)
 .env
 .env.*
-google-services.json
-GoogleService-Info.plist
-firebase_options.dart
 
 .claude/
 

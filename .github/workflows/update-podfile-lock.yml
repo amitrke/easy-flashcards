@@ -1,0 +1,77 @@
+name: Update iOS Podfile.lock
+
+# Generates ios/Podfile.lock on macOS and commits it back to the branch, so store
+# builds use the pod versions that were reviewed instead of resolving fresh ones.
+# CocoaPods only runs on macOS, hence a workflow instead of a local command.
+#
+# Runs when pubspec.lock changes (a FlutterFire bump needs a matching lock) or by
+# hand. It skips main and develop: develop's pushes ship test builds, and this
+# commit is meant to arrive through a branch and pull request like any change.
+#
+# Without a lock it runs `pod install`. With one it unlocks only the Firebase pods
+# and their dependencies (Google*, gRPC, abseil, ...); other pods stay locked.
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main, develop, 'dependabot/**']
+    paths: ['pubspec.lock', '.github/workflows/update-podfile-lock.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: podfile-lock-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep in step with the other workflows.
+  FLUTTER_VERSION: '3.47.0'
+
+jobs:
+  update:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      # Same as release.yml: this project uses CocoaPods, not SPM.
+      - run: flutter config --no-enable-swift-package-manager
+      # Writes ios/Flutter/Generated.xcconfig and .flutter-plugins-dependencies,
+      # which the Podfile reads.
+      - run: flutter precache --ios
+      - run: flutter pub get
+
+      - name: Resolve pods
+        working-directory: ios
+        run: |
+          if [ ! -f Podfile.lock ]; then
+            pod install --repo-update
+          else
+            # Some names are quoted in the lock (e.g. "gRPC-C++ (1.69.0)").
+            pods="$(grep -oE '^  - "?(Firebase[A-Za-z]*|GoogleAppMeasurement|GoogleDataTransport|GoogleUtilities|AppCheckCore|RecaptchaInterop|gRPC-Core|gRPC-C\+\+|BoringSSL-GRPC|abseil|leveldb-library|nanopb|PromisesObjC|PromisesSwift|GTMSessionFetcher)( |/)' Podfile.lock \
+              | sed -E 's/^  - "?//; s/[ /]$//' | sort -u | tr '\n' ' ')"
+            echo "Unlocking: $pods"
+            pod update $pods --repo-update
+          fi
+          grep -E '^  - (Firebase|FirebaseCore|FirebaseFirestore) \(' Podfile.lock
+
+      - name: Commit Podfile.lock
+        run: |
+          git add -N ios/Podfile.lock
+          if git diff --quiet -- ios/Podfile.lock; then
+            echo "Podfile.lock is already up to date."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ios/Podfile.lock
+          git commit -m 'chore(ios): update Podfile.lock'
+          # A GITHUB_TOKEN push starts no workflow, so this cannot loop.
+          git push origin "HEAD:${GITHUB_REF_NAME}"

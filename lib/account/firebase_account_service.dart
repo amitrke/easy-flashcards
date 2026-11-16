@@ -19,6 +19,10 @@ class FirebaseAccountService implements AccountService {
   final FirebaseFirestore _db;
   bool _googleReady = false;
 
+  /// The project's web OAuth client; Android needs it to get an ID token.
+  static const _webClientId =
+      '44748130303-ck9t6armjp3a72ehkr16hph16len3tq8.apps.googleusercontent.com';
+
   AccountUser? _map(User? u) => u == null
       ? null
       : AccountUser(uid: u.uid, email: u.email, displayName: u.displayName);
@@ -44,7 +48,7 @@ class FirebaseAccountService implements AccountService {
       case SignInMethod.google:
         final google = GoogleSignIn.instance;
         if (!_googleReady) {
-          await google.initialize();
+          await google.initialize(serverClientId: _webClientId);
           _googleReady = true;
         }
         final account = await google.authenticate();

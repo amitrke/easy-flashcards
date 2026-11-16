@@ -211,6 +211,10 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+      # Use CocoaPods for iOS dependencies, not Swift Package Manager. With SPM,
+      # App Store Connect rejected Firestore's prebuilt frameworks as unsigned
+      # (error 90035). getspot builds the same way, with CocoaPods, and uploads.
+      - run: flutter config --no-enable-swift-package-manager
       - run: flutter pub get
 
       - name: Install the App Store Connect API key

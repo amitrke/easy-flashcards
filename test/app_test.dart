@@ -8,13 +8,18 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   testWidgets('create a set, then flip a card and take a quiz', (tester) async {
-    await tester.pumpWidget(EasyFlashcardsApp(repository: LocalSetRepository()));
+    await tester.pumpWidget(
+      EasyFlashcardsApp(repository: LocalSetRepository()),
+    );
     await tester.pumpAndSettle();
     expect(find.text('No study sets yet'), findsOneWidget);
 
     await tester.tap(find.text('New set'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.widgetWithText(TextFormField, 'Title'), 'Animals');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Title'),
+      'Animals',
+    );
     await tester.enterText(find.widgetWithText(TextField, 'Term 1'), 'Cat');
     await tester.enterText(find.widgetWithText(TextField, 'Term 2'), 'Dog');
     final definitions = find.widgetWithText(TextField, 'Definition');
@@ -42,7 +47,9 @@ void main() {
   });
 
   testWidgets('saving without a title is refused', (tester) async {
-    await tester.pumpWidget(EasyFlashcardsApp(repository: LocalSetRepository()));
+    await tester.pumpWidget(
+      EasyFlashcardsApp(repository: LocalSetRepository()),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.text('New set'));
     await tester.pumpAndSettle();

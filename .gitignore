@@ -41,3 +41,8 @@ firebase_options.dart
 /fastlane/report.xml
 /fastlane/README.md
 /fastlane/test_output/
+
+# Firebase CLI cache
+.firebase/
+firebase-debug.log
+firestore-debug.log

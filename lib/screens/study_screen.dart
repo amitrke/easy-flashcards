@@ -72,7 +72,9 @@ class _StudyScreenState extends State<StudyScreen> {
             child: GestureDetector(
               onTap: () => setState(() => _showDefinition = !_showDefinition),
               child: Card(
-                color: _showDefinition ? scheme.secondaryContainer : scheme.primaryContainer,
+                color: _showDefinition
+                    ? scheme.secondaryContainer
+                    : scheme.primaryContainer,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(24),
@@ -90,7 +92,10 @@ class _StudyScreenState extends State<StudyScreen> {
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(height: 24),
-                        Text('Tap to flip', style: Theme.of(context).textTheme.bodySmall),
+                        Text(
+                          'Tap to flip',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ],
                     ),
                   ),
@@ -128,7 +133,10 @@ class _StudyScreenState extends State<StudyScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Round complete', style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              'Round complete',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             const SizedBox(height: 12),
             Text('Got it: $_known   Still learning: ${_stillLearning.length}'),
             const SizedBox(height: 24),

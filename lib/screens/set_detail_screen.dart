@@ -17,7 +17,9 @@ class SetDetailScreen extends StatelessWidget {
     final set = store.byId(setId);
     if (set == null) {
       // Deleted while open.
-      return const Scaffold(body: Center(child: Text('This set no longer exists.')));
+      return const Scaffold(
+        body: Center(child: Text('This set no longer exists.')),
+      );
     }
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +41,9 @@ class SetDetailScreen extends StatelessWidget {
                 context: context,
                 builder: (ctx) => AlertDialog(
                   title: const Text('Delete this set?'),
-                  content: Text('"${set.title}" and its ${set.cards.length} cards will be removed.'),
+                  content: Text(
+                    '"${set.title}" and its ${set.cards.length} cards will be removed.',
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(ctx, false),
@@ -91,11 +95,17 @@ class SetDetailScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          Text('${set.cards.length} cards', style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            '${set.cards.length} cards',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: 8),
           for (final c in set.cards)
             Card(
-              child: ListTile(title: Text(c.term), subtitle: Text(c.definition)),
+              child: ListTile(
+                title: Text(c.term),
+                subtitle: Text(c.definition),
+              ),
             ),
         ],
       ),

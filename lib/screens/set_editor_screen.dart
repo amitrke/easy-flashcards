@@ -17,9 +17,9 @@ class SetEditorScreen extends StatefulWidget {
 
 class _CardDraft {
   _CardDraft({String? id, String term = '', String definition = ''})
-      : id = id ?? const Uuid().v4(),
-        term = TextEditingController(text: term),
-        definition = TextEditingController(text: definition);
+    : id = id ?? const Uuid().v4(),
+      term = TextEditingController(text: term),
+      definition = TextEditingController(text: definition);
 
   final String id;
   final TextEditingController term;
@@ -66,7 +66,8 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
     if (!_formKey.currentState!.validate()) return;
     final cards = [
       for (final c in _cards)
-        if (c.term.text.trim().isNotEmpty && c.definition.text.trim().isNotEmpty)
+        if (c.term.text.trim().isNotEmpty &&
+            c.definition.text.trim().isNotEmpty)
           Flashcard(
             id: c.id,
             term: c.term.text.trim(),
@@ -75,7 +76,9 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
     ];
     if (cards.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add at least one card with a term and a definition.')),
+        const SnackBar(
+          content: Text('Add at least one card with a term and a definition.'),
+        ),
       );
       return;
     }
@@ -98,9 +101,7 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.existing == null ? 'New set' : 'Edit set'),
-        actions: [
-          TextButton(onPressed: _save, child: const Text('Save')),
-        ],
+        actions: [TextButton(onPressed: _save, child: const Text('Save'))],
       ),
       body: Form(
         key: _formKey,
@@ -111,13 +112,16 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
               controller: _title,
               decoration: const InputDecoration(labelText: 'Title'),
               textCapitalization: TextCapitalization.sentences,
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Give the set a title' : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? 'Give the set a title'
+                  : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _description,
-              decoration: const InputDecoration(labelText: 'Description (optional)'),
+              decoration: const InputDecoration(
+                labelText: 'Description (optional)',
+              ),
             ),
             const SizedBox(height: 24),
             Text('Cards', style: Theme.of(context).textTheme.titleMedium),
@@ -134,11 +138,15 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
                           children: [
                             TextField(
                               controller: _cards[i].term,
-                              decoration: InputDecoration(labelText: 'Term ${i + 1}'),
+                              decoration: InputDecoration(
+                                labelText: 'Term ${i + 1}',
+                              ),
                             ),
                             TextField(
                               controller: _cards[i].definition,
-                              decoration: const InputDecoration(labelText: 'Definition'),
+                              decoration: const InputDecoration(
+                                labelText: 'Definition',
+                              ),
                             ),
                           ],
                         ),
@@ -148,7 +156,8 @@ class _SetEditorScreenState extends State<SetEditorScreen> {
                         icon: const Icon(Icons.delete_outline),
                         onPressed: _cards.length <= 1
                             ? null
-                            : () => setState(() => _cards.removeAt(i).dispose()),
+                            : () =>
+                                  setState(() => _cards.removeAt(i).dispose()),
                       ),
                     ],
                   ),

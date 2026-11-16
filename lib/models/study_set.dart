@@ -10,19 +10,22 @@ class Flashcard {
   final String definition;
 
   Flashcard copyWith({String? term, String? definition}) => Flashcard(
-        id: id,
-        term: term ?? this.term,
-        definition: definition ?? this.definition,
-      );
+    id: id,
+    term: term ?? this.term,
+    definition: definition ?? this.definition,
+  );
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'term': term, 'definition': definition};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'term': term,
+    'definition': definition,
+  };
 
   factory Flashcard.fromJson(Map<String, dynamic> json) => Flashcard(
-        id: json['id'] as String,
-        term: json['term'] as String,
-        definition: json['definition'] as String,
-      );
+    id: json['id'] as String,
+    term: json['term'] as String,
+    definition: json['definition'] as String,
+  );
 }
 
 class StudySet {
@@ -45,30 +48,29 @@ class StudySet {
     String? description,
     List<Flashcard>? cards,
     DateTime? updatedAt,
-  }) =>
-      StudySet(
-        id: id,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        cards: cards ?? this.cards,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => StudySet(
+    id: id,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    cards: cards ?? this.cards,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'description': description,
-        'cards': cards.map((c) => c.toJson()).toList(),
-        'updatedAt': updatedAt.toUtc().toIso8601String(),
-      };
+    'id': id,
+    'title': title,
+    'description': description,
+    'cards': cards.map((c) => c.toJson()).toList(),
+    'updatedAt': updatedAt.toUtc().toIso8601String(),
+  };
 
   factory StudySet.fromJson(Map<String, dynamic> json) => StudySet(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        description: (json['description'] as String?) ?? '',
-        cards: ((json['cards'] as List?) ?? const [])
-            .map((c) => Flashcard.fromJson(Map<String, dynamic>.from(c as Map)))
-            .toList(),
-        updatedAt: DateTime.parse(json['updatedAt'] as String),
-      );
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: (json['description'] as String?) ?? '',
+    cards: ((json['cards'] as List?) ?? const [])
+        .map((c) => Flashcard.fromJson(Map<String, dynamic>.from(c as Map)))
+        .toList(),
+    updatedAt: DateTime.parse(json['updatedAt'] as String),
+  );
 }

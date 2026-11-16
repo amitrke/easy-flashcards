@@ -5,11 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 StudySet makeSet(String id, String title, DateTime at) => StudySet(
-      id: id,
-      title: title,
-      cards: const [Flashcard(id: 'c1', term: 'T', definition: 'D')],
-      updatedAt: at,
-    );
+  id: id,
+  title: title,
+  cards: const [Flashcard(id: 'c1', term: 'T', definition: 'D')],
+  updatedAt: at,
+);
 
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));

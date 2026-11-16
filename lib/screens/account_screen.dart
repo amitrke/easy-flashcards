@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../account/account_service.dart';
 import '../state/set_store.dart';
@@ -112,6 +113,16 @@ class _AccountScreenState extends State<AccountScreen> {
                   child: const Text('Delete account'),
                 ),
               ],
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => launchUrl(
+                  Uri.parse(
+                    'https://easy-flashcards-quiz.web.app/privacy.html',
+                  ),
+                  mode: LaunchMode.externalApplication,
+                ),
+                child: const Text('Privacy policy'),
+              ),
               if (_error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
